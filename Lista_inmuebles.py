@@ -237,7 +237,7 @@ if data.empty is False:
         else: imagen_principal = "https://personal-data-bucket-online.s3.us-east-2.amazonaws.com/sin_imagen.png"
         codigo = (inmueble['id_inmueble']*5 + 2)**2
         caracteristicas = f'<strong>{inmueble["areaconstruida"]}</strong> mt<sup>2</sup> | <strong>{int(inmueble["habitaciones"])}</strong> hab | <strong>{int(inmueble["banos"])}</strong> baños | <strong>{int(inmueble["garajes"])}</strong> pq'
-        url_export      = f'''http://localhost:8501/Ficha?idcodigo={codigo}'''
+        url_export      = f'''https://inmuebles-disponibles.streamlit.app/Ficha?idcodigo={codigo}'''
         imagenes += f'''
               <div class="property-block">
                 <a href="{url_export}" target="_blank">
