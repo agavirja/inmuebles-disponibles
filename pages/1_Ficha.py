@@ -25,7 +25,7 @@ database = st.secrets["schema"]
 
 #-------------------------------------------------------------------------#
 # Datos de contacto
-datos_contacto = [{'nombre':'Ivonne Carvajal','tel':'(57) 3116709887'},
+datos_contacto = [{'nombre':'Karen Cano','tel':'(57) 3107270212'},
                   {'nombre':'Viviana Diaz','tel':'(57) 3108691308'}]
                   
 # https://pdfcrowd.com/pricing/api/?api=v2
@@ -54,6 +54,10 @@ def data_documents(id_inmueble):
     db_connection = sql.connect(user=user, password=password, host=host, database=database)
     data          = pd.read_sql(f"SELECT id_inmueble,venta_relevantfiles FROM colombia.data_stock_inmuebles_documents WHERE id_inmueble={id_inmueble}" , con=db_connection)
     return data
+
+@st.experimental_memo
+def convert_df(df):
+   return df.to_csv(index=False).encode('utf-8')
 
 # obtener los argumentos de la url
 args = st.experimental_get_query_params()
@@ -89,6 +93,20 @@ try:
 except: pass
 
 if data.empty is False:
+    
+    urllink = ''
+    for i in ['url_domus','url_fr','url_m2','url_cc','url_meli']:
+        if i in data and isinstance(data[i].iloc[0], str) and len(data[i].iloc[0])>20:
+            urllink = data[i].iloc[0]
+            break
+
+    variables = ['id_inmueble','estado_venta','precio_lista_venta','porcentaje_comision','tipoinmueble','localidad','upz','barriocatastral','barriocomun','ciudad','direccion','nombre_conjunto','valoradministracion','estrato','areaconstruida','areaprivada','habitaciones','banos','garajes','depositos','piso','antiguedad','ascensores','numerodeniveles','url_img1','url_img2','url_img3','url_img4','url_img5','url_img6','url_img7','url_img8','url_img9','url_img10','url_img11','url_img12','url_img13','url_img14','url_img15','url_img16','url_img17','url_img18','url_img19','url_img20','url_img21','url_img22','url_img23','url_img24','url_img25','latitud','longitud','ph','chip','matricula','cedula_catastral','porteria','circuito_cerrado','lobby','salon_comunal','parque_infantil','terraza','sauna','turco','jacuzzi','cancha_multiple','cancha_baloncesto','cancha_voleibol','cancha_futbol','cancha_tenis','cancha_squash','salon_juegos','gimnasio','zona_bbq','sala_cine','piscina']
+    variables = [x for x in variables if x in data]
+    datadownload = data[variables]
+    datadownload['url'] = urllink
+    reanmeformat = {'id_inmueble':'Codigo','estado_venta':'Estado','precio_lista_venta':'Precio','porcentaje_comision':'Comision (%)','tipoinmueble':'Tipo inmueble','ciudad':'Ciudad','localidad':'Localidad','upz':'UPZ','barriocatastral':'Barrio','barriocomun':'Barrio comun','direccion':'Direccion','nombre_conjunto':'Nombre edificio','valoradministracion':'Administracion','estrato':'Estrato','areaconstruida':'Area construida','areaprivada':'Area privada','habitaciones':'Habitaciones','banos':'Banos','garajes':'Garajes','depositos':'Depositos','piso':'Piso','antiguedad':'Antiguedad','ascensores':'Ascensores','numerodeniveles':'Niveles','latitud':'Latitud','longitud':'Longitud','ph':'Propiedad Horizontal','chip':'Chip','matricula':'Matricula Inmobiliaria','cedula_catastral':'Cedula catastral','porteria':'Porteria','circuito_cerrado':'Circuito cerrado','lobby':'Lobby','salon_comunal':'Salon comunal','parque_infantil':'Parque infantil','terraza':'Terraza','sauna':'Sauna','turco':'Turco','jacuzzi':'Jacuzzi','cancha_multiple':'Cancha multiple','cancha_baloncesto':'Cancha de baloncesto','cancha_voleibol':'Cancha de voleibol','cancha_futbol':'Cancha de futbol','cancha_tenis':'Cancha de tenis','cancha_squash':'Cancha de squash','salon_juegos':'Salon de juegos','gimnasio':'GYM','zona_bbq':'Zona de BBQ','sala_cine':'Sala de cine','piscina':'Piscina'}
+    datadownload.rename(columns=reanmeformat,inplace=True)
+
     #-------------------------------------------------------------------------#
     fontsize        = 13
     fontfamily      = 'sans-serif'
@@ -369,6 +387,16 @@ if data.empty is False:
         texto_property = BeautifulSoup(texto_property, 'html.parser')
         st.markdown(texto_property, unsafe_allow_html=True)
         
+        csv = convert_df(datadownload)
+
+        st.download_button(
+           "Descargar info completa",
+           csv,
+           "info_completa.csv",
+           "text/csv",
+           key='descarga-csv'
+        )
+
     st.write('---')
     col1, col2 = st.columns([3,2])
     with col1:
