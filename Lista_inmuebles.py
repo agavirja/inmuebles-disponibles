@@ -108,7 +108,7 @@ if data.empty is False:
         csv = convert_df(datadownload)
 
         st.download_button(
-           "Descargar inmuebles disponibles",
+           "Descargar disponibles",
            csv,
            "info_completa.csv",
            "text/csv",
