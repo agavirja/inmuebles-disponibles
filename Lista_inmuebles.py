@@ -104,18 +104,6 @@ if data.empty is False:
         areamax = st.number_input('Área construida máxima',value=areamaxq)
     idd = (idd) & (data['areaconstruida']>=areamin) & (data['areaconstruida']<=areamax)
         
-    with col1:
-        csv = convert_df(datadownload)
-
-        st.download_button(
-           "Descargar disponibles",
-           csv,
-           "info_completa.csv",
-           "text/csv",
-           key='descarga-csv'
-        )
-
-
     with col3:
         default_lat = 4.663344
         default_lng = -74.076695
@@ -149,6 +137,18 @@ if data.empty is False:
             data['geometry'] = data.apply(lambda x: Point(x['longitud'],x['latitud']),axis=1)
             idd  = (idd) & (data['geometry'].apply(lambda x: polygon.contains(x)))
     
+    col1, col2 = st.columns([2,6])
+    with col1:
+        csv = convert_df(datadownload)
+
+        st.download_button(
+           "Descargar inmuebles excel",
+           csv,
+           "info_completa.csv",
+           "text/csv",
+           key='descarga-csv'
+        )
+
     #-------------------------------------------------------------------------#
     # Filtros
     col1, col2, col3, col4 = st.columns(4)
