@@ -256,8 +256,9 @@ if data.empty is False:
             margin-bottom: 2px;
           }
           img{
-            width:480px;
-            height:290px;
+            max-width: 50%;
+            width: 100%;
+            object-fit: cover;
             margin-bottom: 10px; 
           }
         </style>
