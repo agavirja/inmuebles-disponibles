@@ -256,7 +256,7 @@ if data.empty is False:
             margin-bottom: 2px;
           }
           img{
-            max-width: 50%;
+            max-width: 100%;
             width: 100%;
             object-fit: cover;
             margin-bottom: 10px; 
