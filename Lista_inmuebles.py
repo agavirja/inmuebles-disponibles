@@ -206,8 +206,6 @@ if data.empty is False:
         <style>
           .property-card-left {
             width: 100%;
-            height: 800px; /* or max-height: 300px; */
-            overflow-y: scroll; /* enable vertical scrolling for the images */
             text-align: center;
             display: inline-block;
             margin: 0px auto;
