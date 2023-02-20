@@ -62,11 +62,10 @@ if data.empty is False:
     datacaracteristicas.drop(columns=['nombre_conjunto'],inplace=True)
     data                = data[['id_inmueble','nombre_conjunto','precio_lista_venta','porcentaje_comision','url_domus','url_fr', 'url_m2','url_cc', 'url_meli']]
     data.rename(columns={'precio_lista_venta':'precio_venta'},inplace=True)
-    data                = data.merge(dataimg[['id_inmueble','url_img1']],on=['id_inmueble'],how='left',validate='1:1')
+    data                = data.merge(dataimg[['id_inmueble','url_img1', 'url_img2', 'url_img3', 'url_img4', 'url_img5', 'url_img6', 'url_img7', 'url_img8', 'url_img9', 'url_img10', 'url_img11', 'url_img12', 'url_img13', 'url_img14', 'url_img15']],on=['id_inmueble'],how='left',validate='1:1')
     data                = data.merge(datacaracteristicas,on=['id_inmueble'],how='left',validate='1:1')
     data.index = range(len(data))
     idd = data.index>=0
-    
     
     #-------------------------------------------------------------------------#
     # Descargar data
