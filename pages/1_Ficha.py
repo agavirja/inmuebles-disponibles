@@ -31,31 +31,31 @@ datos_contacto = [{'nombre':'Karen Cano','tel':'(57) 3107270212'},
 # https://pdfcrowd.com/pricing/api/?api=v2
 # https://pdfcrowd.com/user/account/stats/
 
-st.cache_data
+@st.cache_data
 def data_gestion(id_inmueble):
     db_connection = sql.connect(user=user, password=password, host=host, database=database)
     data          = pd.read_sql(f"SELECT * FROM colombia.data_stock_inmuebles_gestion WHERE id_inmueble={id_inmueble}" , con=db_connection)
     return data
 
-st.cache_data
+@st.cache_data
 def data_img(id_inmueble):
     db_connection = sql.connect(user=user, password=password, host=host, database=database)
     data          = pd.read_sql(f"SELECT * FROM colombia.data_stock_inmuebles_img WHERE id_inmueble={id_inmueble}" , con=db_connection)
     return data
 
-st.cache_data
+@st.cache_data
 def data_caracteristicas(id_inmueble):
     db_connection = sql.connect(user=user, password=password, host=host, database=database)
     data          = pd.read_sql(f"SELECT * FROM colombia.data_stock_inmuebles_caracteristicas WHERE id_inmueble={id_inmueble}" , con=db_connection)
     return data
 
-st.cache_data
+@st.cache_data
 def data_documents(id_inmueble):
     db_connection = sql.connect(user=user, password=password, host=host, database=database)
     data          = pd.read_sql(f"SELECT id_inmueble,venta_relevantfiles FROM colombia.data_stock_inmuebles_documents WHERE id_inmueble={id_inmueble}" , con=db_connection)
     return data
 
-st.cache_data
+@st.cache_data
 def convert_df(df):
    return df.to_csv(index=False).encode('utf-8')
 
