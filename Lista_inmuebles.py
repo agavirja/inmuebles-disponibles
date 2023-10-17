@@ -28,26 +28,26 @@ def get_url(x):
             break    
     return urllink
 
-@st.cache_data
+st.cache_data()
 def data_gestion():
     db_connection = sql.connect(user=user, password=password, host=host, database=database)
     data          = pd.read_sql("SELECT * FROM colombia.data_stock_inmuebles_gestion" , con=db_connection)
     data['url']   = data.apply(lambda x: get_url(x), axis=1)
     return data
 
-@st.cache_data
+st.cache_data()
 def data_img():
     db_connection = sql.connect(user=user, password=password, host=host, database=database)
     data          = pd.read_sql("SELECT * FROM colombia.data_stock_inmuebles_img" , con=db_connection)
     return data
 
-@st.cache_data
+st.cache_data()
 def data_caracteristicas():
     db_connection = sql.connect(user=user, password=password, host=host, database=database)
     data          = pd.read_sql("SELECT * FROM colombia.data_stock_inmuebles_caracteristicas" , con=db_connection)
     return data
 
-@st.cache_data
+st.cache_data()
 def convert_df(df):
    return df.to_csv(index=False).encode('utf-8')
 
